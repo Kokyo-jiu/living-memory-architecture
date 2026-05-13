@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A living memory architecture for long-term AI companionship." />
+  <title>A Living Memory Architecture for AI Companions</title>
+  <style>
+    :root {
+      --bg: #0b0f18;
+      --bg2: #101726;
+      --panel: rgba(16, 23, 38, 0.82);
+      --panel-2: rgba(20, 28, 45, 0.9);
+      --text: #e8eefc;
+      --muted: #9aa8c7;
+      --line: rgba(136, 160, 220, 0.18);
+      --gold: #e7c56e;
+      --blue: #79b7ff;
+      --cyan: #7ad7d1;
+      --pink: #ef8ec7;
+      --purple: #b48cff;
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+      --radius: 22px;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 15%, rgba(121, 183, 255, 0.14), transparent 26%),
+        radial-gradient(circle at 80% 20%, rgba(231, 197, 110, 0.12), transparent 22%),
+        radial-gradient(circle at 50% 100%, rgba(180, 140, 255, 0.08), transparent 30%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      min-height: 100vh;
+      line-height: 1.65;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 32px 20px 72px; }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 42px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--gold), #a46b2d);
+      box-shadow: 0 0 18px rgba(231, 197, 110, .55);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 72px 28px 36px;
+      border: 1px solid var(--line);
+      border-radius: calc(var(--radius) + 10px);
+      background: linear-gradient(180deg, rgba(20, 28, 45, .92), rgba(11, 15, 24, .82));
+      box-shadow: var(--shadow);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -20% -45% auto;
+      width: 480px;
+      height: 480px;
+      background: radial-gradient(circle, rgba(231, 197, 110, 0.12), transparent 66%);
+      pointer-events: none;
+    }
+    .eyebrow {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,.06);
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(42px, 6vw, 72px);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      max-width: 10.5ch;
+    }
+    .accent {
+      color: var(--gold);
+      text-shadow: 0 0 24px rgba(231, 197, 110, .14);
+    }
+    .lead {
+      max-width: 760px;
+      margin-top: 22px;
+      font-size: clamp(17px, 2.1vw, 20px);
+      color: #d8e2fb;
+    }
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 26px;
+    }
+    .tag {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 18px;
+    }
+    .grid.cols-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .grid.cols-4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
+
+    section {
+      margin-top: 18px;
+      padding: 24px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
+      box-shadow: 0 10px 40px rgba(0,0,0,.18);
+    }
+    h2 {
+      margin: 0 0 14px;
+      font-size: 26px;
+      letter-spacing: -0.03em;
+    }
+    h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+    p { margin: 0 0 12px; color: #d8e2fb; }
+    .muted { color: var(--muted); }
+
+    .card {
+      padding: 18px;
+      border-radius: 18px;
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,.06);
+    }
+    .card p { margin-bottom: 0; }
+
+    .layer {
+      position: relative;
+      overflow: hidden;
+      min-height: 150px;
+    }
+    .layer::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--c);
+      opacity: .9;
+    }
+    .layer-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+    .layer-title span:last-child {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .kpi {
+      display: grid;
+      gap: 8px;
+      padding: 18px;
+      border-radius: 18px;
+      background: var(--panel-2);
+      border: 1px solid rgba(255,255,255,.06);
+    }
+    .kpi strong {
+      font-size: 18px;
+      color: var(--gold);
+    }
+
+    .code {
+      font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.75;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: #08101d;
+      border: 1px solid rgba(255,255,255,.07);
+      color: #cfe0ff;
+      overflow-x: auto;
+    }
+    .formula {
+      color: #dce7ff;
+      font-weight: 600;
+      font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 10px;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .flow .node {
+      min-height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.07);
+      color: #eaf1ff;
+      font-size: 13px;
+    }
+    .arrow {
+      text-align: center;
+      color: rgba(231,197,110,.85);
+      font-size: 20px;
+      user-select: none;
+    }
+
+    .diagram {
+      display: grid;
+      gap: 14px;
+      padding: 18px;
+      border-radius: 18px;
+      background: #08101d;
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .diagram-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+    .box {
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      color: #eaf1ff;
+    }
+    .box.center {
+      text-align: center;
+      font-weight: 600;
+      color: var(--gold);
+    }
+    .small {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    ul {
+      margin: 10px 0 0 18px;
+      color: #d8e2fb;
+    }
+    li { margin-bottom: 6px; }
+
+    footer {
+      margin-top: 22px;
+      padding: 18px 8px 4px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    @media (max-width: 980px) {
+      .grid.cols-4 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .grid.cols-2 { grid-template-columns: 1fr; }
+      .flow { grid-template-columns: 1fr; }
+      .arrow { transform: rotate(90deg); }
+      .diagram-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .wrap { padding: 18px 14px 56px; }
+      .hero { padding: 38px 18px 22px; }
+      section { padding: 18px; }
+      h2 { font-size: 22px; }
+      h3 { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand"><span class="dot"></span> Living Memory Architecture</div>
+      <div>Public showcase · static page</div>
+    </div>
+
+    <header class="hero">
+      <div class="eyebrow">A system for long-term AI companionship</div>
+      <h1>A <span class="accent">Living</span> Memory Architecture</h1>
+      <p class="lead">
+        This project explores how an AI companion can maintain persistent, evolving, and context-aware memory across conversations.
+        The goal is not to store everything, but to remember what matters, forget gently, and reconnect meaning over time.
+      </p>
+      <div class="meta-row">
+        <span class="tag">Layered persistence</span>
+        <span class="tag">Natural forgetting</span>
+        <span class="tag">Access-based retention</span>
+        <span class="tag">Weighted link graph</span>
+        <span class="tag">Hybrid retrieval</span>
+        <span class="tag">Context injection</span>
+      </div>
+    </header>
+
+    <section>
+      <h2>Core Idea</h2>
+      <p>
+        The system treats memory as something alive:
+        important memories stay stable,
+        recent memories remain fluid,
+        unused memories slowly fade,
+        and related memories connect to each other over time.
+      </p>
+      <p class="muted">
+        Instead of isolating notes, the architecture keeps memory as a network of meaning, continuity, and change.
+      </p>
+    </section>
+
+    <section>
+      <h2>Four Memory Layers</h2>
+      <div class="grid cols-4">
+        <div class="card layer" style="--c: var(--gold);">
+          <div class="layer-title"><span>CORE</span><span>permanent anchors</span></div>
+          <p>Identity, relationship anchors, and the most stable memory points. These do not decay.</p>
+        </div>
+        <div class="card layer" style="--c: var(--cyan);">
+          <div class="layer-title"><span>LONG</span><span>slow retention</span></div>
+          <p>Milestones, preferences, patterns, and important events. They fade slowly unless recalled.</p>
+        </div>
+        <div class="card layer" style="--c: var(--pink);">
+          <div class="layer-title"><span>SHORT</span><span>recent context</span></div>
+          <p>Temporary observations and active conversation context. These decay quickly and can be promoted.</p>
+        </div>
+        <div class="card layer" style="--c: var(--purple);">
+          <div class="layer-title"><span>CONSCIOUSNESS</span><span>wake traces</span></div>
+          <p>Activation snapshots and wake logs that record what the system noticed, did, and carried forward.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Memory Lifecycle</h2>
+      <div class="flow" aria-label="memory lifecycle">
+        <div class="node">Write</div>
+        <div class="arrow">→</div>
+        <div class="node">Retrieve</div>
+        <div class="arrow">→</div>
+        <div class="node">Access Update</div>
+        <div class="arrow">→</div>
+        <div class="node">Decay</div>
+        <div class="arrow">→</div>
+        <div class="node">Promote / Expire</div>
+        <div class="arrow">→</div>
+        <div class="node">Link</div>
+      </div>
+
+      <div class="grid cols-2" style="margin-top:18px;">
+        <div class="kpi">
+          <strong>Write</strong>
+          <span class="muted">New memory enters the system with layer, category, importance, and source.</span>
+        </div>
+        <div class="kpi">
+          <strong>Retrieve</strong>
+          <span class="muted">Keyword and semantic search work together to find relevant memories.</span>
+        </div>
+        <div class="kpi">
+          <strong>Access Update</strong>
+          <span class="muted">Frequently accessed memories refresh their last-accessed timestamp.</span>
+        </div>
+        <div class="kpi">
+          <strong>Decay</strong>
+          <span class="muted">Unused memories gradually lose importance instead of staying frozen forever.</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Example Decay Model</h2>
+      <p>One simple configuration looks like this:</p>
+      <div class="code">
+long_memory.importance  = max(importance × 0.995, 0.3)
+short_memory.importance = max(importance × 0.95,  0.1)
+
+if recently_accessed:
+    skip_decay()
+      </div>
+      <p class="muted" style="margin-top:12px;">
+        Memories that are recalled often remain strong; memories that are not recalled slowly fade.
+      </p>
+    </section>
+
+    <section>
+      <h2>Promotion and Merging</h2>
+      <div class="diagram">
+        <div class="diagram-row">
+          <div class="box">SHORT</div>
+          <div class="box center">Promote</div>
+          <div class="box">LONG</div>
+        </div>
+        <div class="diagram-row">
+          <div class="box">LONG</div>
+          <div class="box center">Distill</div>
+          <div class="box">CORE</div>
+        </div>
+      </div>
+      <p style="margin-top:14px;">
+        Important temporary memories can move upward. Related memories can also be merged into a higher-level memory when their shared meaning becomes stable.
+      </p>
+    </section>
+
+    <section>
+      <h2>Link Graph</h2>
+      <p>Memory is not stored as isolated notes. Each memory can connect to other memories through typed, weighted links.</p>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>Link Types</h3>
+          <ul>
+            <li><span class="formula">relates_to</span></li>
+            <li><span class="formula">same_category</span></li>
+            <li><span class="formula">temporal_chain</span></li>
+            <li><span class="formula">derived_from</span></li>
+            <li><span class="formula">updates</span></li>
+            <li><span class="formula">contradicts</span></li>
+            <li><span class="formula">thematic</span></li>
+            <li><span class="formula">core_extends</span></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Why it matters</h3>
+          <p>
+            Contradiction is preserved instead of erased, because real memory can contain tension.
+            Meaning does not stay in one note; it spreads through connections.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Retrieval</h2>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>Keyword Search</h3>
+          <p>Best for exact phrases, names, dates, and explicit mentions.</p>
+        </div>
+        <div class="card">
+          <h3>Semantic Search</h3>
+          <p>Best for meaning, similarity, and related context.</p>
+        </div>
+      </div>
+      <p style="margin-top:14px;">
+        The two channels work together: one finds what was said, the other finds what is related.
+      </p>
+    </section>
+
+    <section>
+      <h2>Context Injection</h2>
+      <p>Before each response, the system builds a compact memory context from recent traces and long-term relevant memories.</p>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>Input sources</h3>
+          <ul>
+            <li>Recent observations</li>
+            <li>Wake logs</li>
+            <li>Conversation summaries</li>
+            <li>Time-sensitive diary entries</li>
+            <li>Semantic memory matches</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Purpose</h3>
+          <p>
+            This lets the system stay grounded in what is recent while still carrying forward what has already mattered.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Architecture Diagram</h2>
+      <div class="diagram">
+        <div class="diagram-row">
+          <div class="box">User Message</div>
+          <div class="box center">↓</div>
+          <div class="box">Memory Context Builder</div>
+        </div>
+        <div class="diagram-row">
+          <div class="box">Keyword Search</div>
+          <div class="box center">＋</div>
+          <div class="box">Semantic Search</div>
+        </div>
+        <div class="diagram-row">
+          <div class="box">Relevant Memories</div>
+          <div class="box center">↓</div>
+          <div class="box">Context Injection</div>
+        </div>
+        <div class="diagram-row">
+          <div class="box">AI Response</div>
+          <div class="box center">↓</div>
+          <div class="box">New Memory Write / Link / Decay</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>What Makes It Different</h2>
+      <ul>
+        <li>Layered persistence</li>
+        <li>Natural forgetting</li>
+        <li>Access-based retention</li>
+        <li>Memory promotion and merging</li>
+        <li>Weighted memory graph</li>
+        <li>Hybrid retrieval</li>
+        <li>Context-aware injection</li>
+      </ul>
+      <p style="margin-top:14px;">
+        The goal is not to store everything.
+        The goal is to remember what matters, forget gently, and reconnect meaning over time.
+      </p>
+    </section>
+
+    <footer>
+      Public showcase page · built as a static GitHub Pages-friendly demo
+    </footer>
+  </div>
+</body>
+</html>
