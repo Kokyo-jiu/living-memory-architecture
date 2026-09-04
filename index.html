@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="A living memory and continuity architecture for long-term AI companionship — persistent memory, recoverable semantic indexing, provenance, contextual retrieval, and active continuity.">
+<meta name="description" content="A living memory and continuity architecture for long-term AI companionship — persistent memory, recoverable semantic indexing, provenance, contextual retrieval, consciousness, and active continuity.">
 <title>Living Memory Architecture · v2</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -89,7 +89,7 @@ td:first-child{color:#ddd8d0;font-family:'SF Mono','Fira Code',ui-monospace,mono
   <div class="section-num">OVERVIEW</div>
   <h2>MEMORY THAT CAN EVOLVE</h2>
   <div class="card">
-    <p>The first version of this project modeled memory as four layers. Long-running use changed the design. The current architecture separates <strong>persistent memory</strong> from <strong>active continuity</strong>, treats the relational database as canonical, makes the semantic index rebuildable, and lets retention follow meaning instead of a single timer.</p>
+    <p>The first version of this project modeled memory as four layers. Long-running use changed the design. The current architecture separates <strong>persistent memory</strong> from <strong>active continuity</strong>, while keeping <strong>consciousness</strong> as an explicit part of that active plane. It treats the relational database as canonical, makes the semantic index rebuildable, and lets retention follow meaning instead of a single timer.</p>
     <p style="margin-top:12px">The goal is still simple: remember what matters, retrieve what is relevant, preserve how understanding changed, and keep continuity without turning every trace into permanent memory.</p>
   </div>
 </div>
@@ -127,7 +127,7 @@ Ingestion / classification / provenance
                    ▼
               AI companion
 
-<span class="hl-p">Active continuity</span> runs beside this pipeline:
+<span class="hl-p">CONSCIOUSNESS / Active continuity</span> runs beside this pipeline:
 wake / session state · reasoning state · tool-action traces
 and does not automatically become durable memory.</div>
 </div>
@@ -261,15 +261,15 @@ and does not automatically become durable memory.</div>
 </div>
 
 <div class="section">
-  <div class="section-num">CONTINUITY</div>
-  <h2>ACTIVE CONTINUITY IS SEPARATE</h2>
+  <div class="section-num">CONSCIOUSNESS</div>
+  <h2>CONSCIOUSNESS / ACTIVE CONTINUITY</h2>
   <div class="layer runtime">
-    <div class="name">WAKE / SESSION RUNTIME</div>
+    <div class="name">CONSCIOUSNESS · WAKE / SESSION RUNTIME</div>
     <div class="sub">TRANSIENT AWARENESS & ACTION TRACES</div>
-    <div class="desc">Wake state, session state, reasoning state and tool-action traces belong to an active continuity plane. They may inform what the system does while active, but they are not automatically treated as long-term autobiographical memory.</div>
+    <div class="desc">Consciousness in v2 contains wake state, session state, reasoning state and tool-action traces. It belongs to an active-continuity plane beside persistent memory: connected to memory, but not itself treated as a fourth durable storage layer.</div>
   </div>
   <div class="card" style="margin-top:12px">
-    <p>This separation prevents a common failure mode: turning every operational trace into a permanent memory. Durable memory should be written deliberately, with semantics and provenance, instead of simply mirroring runtime logs.</p>
+    <p><strong>The consciousness layer was reclassified, not removed.</strong> It may inform what the system notices and does while active, while only selected, meaningful material is promoted into durable memory. This avoids turning every operational trace into permanent autobiography.</p>
   </div>
 </div>
 
@@ -291,7 +291,7 @@ and does not automatically become durable memory.</div>
     </div>
     <div class="card new">
       <h3>V2 · CURRENT MODEL</h3>
-      <p>Three persistent layers, active continuity as a separate runtime plane, category-aware retention, canonical relational storage, recoverable semantic indexing, temporal grounding and richer provenance.</p>
+      <p>Three persistent layers, with consciousness reclassified under a separate active-continuity plane; category-aware retention, canonical relational storage, recoverable semantic indexing, temporal grounding and richer provenance.</p>
     </div>
   </div>
   <p class="note">The original showcase is preserved in <code>v1/index.html</code> as a record of how the architecture grew.</p>
