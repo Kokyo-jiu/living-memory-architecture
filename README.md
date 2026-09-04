@@ -6,7 +6,7 @@ A living memory and continuity architecture for long-term AI companionship.
 
 **v2 — September 2026**
 
-The project began as a four-layer memory model. After months of continuous use, it evolved into a broader system with three persistent memory layers, an independent active-continuity runtime, category-aware retention, recoverable vector indexing, provenance-aware retrieval, and optional hooks for higher-level memory growth.
+The project began as a four-layer memory model. After months of continuous use, it evolved into a broader system with three persistent memory layers, an independent active-continuity plane, category-aware retention, recoverable vector indexing, provenance-aware retrieval, and optional hooks for higher-level memory growth.
 
 ### Persistent memory
 
@@ -24,9 +24,11 @@ The project began as a four-layer memory model. After months of continuous use, 
 - Category-aware retention instead of one expiry rule for an entire layer
 - Compact context assembly from recent, relevant and durable memory
 
-### Active continuity plane
+### Consciousness / active continuity plane
 
-Wake/session traces, reasoning states and tool-action traces are treated as runtime continuity rather than a fourth persistent-memory layer. They can inform behavior without automatically becoming durable autobiographical memory.
+**Consciousness still exists in v2.** It is no longer modeled as a fourth persistent-memory layer. Instead, it sits in a separate active-continuity plane containing wake/session state, reasoning traces, and tool-action traces.
+
+These traces can shape what the system notices and does while active, but they do not automatically become durable autobiographical memory. Persistent storage and active consciousness therefore remain connected without being treated as the same thing.
 
 ### Growth hooks
 
@@ -38,13 +40,15 @@ The memory layer can expose grounded source material to a separate higher-level 
 2. **Retention follows meaning.** Different categories can have different retention and expiry behavior even inside the same layer.
 3. **Provenance matters.** Derived memories should remain traceable to the material that supported them.
 4. **Time must be grounded.** Record time and event time are distinct; old material should not silently masquerade as current state.
-5. **Runtime traces are not automatically memories.** Active continuity and persistent memory have different responsibilities.
+5. **Consciousness is active continuity, not automatic persistence.** Runtime traces and durable memory have different responsibilities.
 6. **Contradiction is representable.** Memory systems should preserve change, conflict and revision instead of flattening a person into one immutable profile.
 
 ## Version history
 
 - **v2** — current architecture and public showcase (`index.html`)
 - **v1** — original four-layer showcase, preserved at [`v1/index.html`](v1/index.html)
+
+In v1, consciousness appeared beside core / long / short as a fourth peer layer. In v2, the concept remains but is reclassified under active continuity rather than removed.
 
 ## Files
 
